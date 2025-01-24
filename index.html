@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجريمة وأثرها على أمن المجتمع العسكري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* التصميم العام */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1C2E4A, #0A1220);
+            color: #FFFFFF;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: rgba(28, 46, 74, 0.8);
+            color: #FFFFFF;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .date-time {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #D4AF37;
+            animation: fadeIn 2s ease-in-out;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #D4AF37;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #1C2E4A;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #D4AF37;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card h2 i {
+            margin-left: 10px;
+        }
+
+        .card p, .card ul {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            display: none; /* يتم إظهاره عند النقر */
+        }
+
+        .card.active p, .card.active ul {
+            display: block;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .navigation button {
+            background-color: #D4AF37;
+            color: #1C2E4A;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 10px;
+        }
+
+        .navigation button:hover {
+            background-color: #c0a037;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(28, 46, 74, 0.8);
+            color: #FFFFFF;
+            margin-top: 40px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #D4AF37;
+            color: #1C2E4A;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background-color: #c0a037;
+        }
+
+        /* تصميم الجدول الزمني */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #D4AF37;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 20px;
+            position: relative;
+            width: 100%; /* تعديل العرض ليكون 100% */
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .timeline-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-icon {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background-color: #D4AF37;
+            color: #1C2E4A;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .timeline-item:nth-child(even) .timeline-icon {
+            left: -30px;
+            right: auto;
+        }
+
+        .timeline-content {
+            padding: 20px;
+        }
+
+        .timeline-content h3 {
+            color: #D4AF37;
+            margin-top: 0;
+        }
+
+        .timeline-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <!-- التاريخ والوقت -->
+    <div class="date-time" id="date-time"></div>
+
+    <header>
+        <h1>الجريمة وأثرها على أمن المجتمع العسكري</h1>
+        <p>في عالم يتسم بالتحديات الأمنية المتزايدة، تأتي الجريمة كواحدة من أبرز التهديدات التي تواجه استقرار المجتمعات. هذا البحث يسلط الضوء على تأثير الجريمة على الأمن العسكري وكيفية مواجهة هذه التحديات بفعالية.</p>
+    </header>
+
+    <div class="card animate__animated" id="introduction">
+        <h2><i class="fas fa-book-open"></i> المقدمة</h2>
+        <p>الجريمة هي ظاهرة اجتماعية تؤثر على استقرار المجتمعات وأمنها. في هذا البحث، سنستعرض تأثير الجريمة على الأمن العسكري وكيفية مواجهة هذه التحديات.</p>
+    </div>
+
+    <div class="card animate__animated" id="history">
+        <h2><i class="fas fa-history"></i> نشأة الجريمة تاريخيًا</h2>
+        <p>تطورت الجريمة عبر العصور، بدءًا من المجتمعات البدائية وصولًا إلى العصر الرقمي. إليك أبرز المحطات:</p>
+
+        <!-- جدول زمني -->
+        <div class="timeline">
+            <div class="timeline-item animate__animated animate__fadeInLeft">
+                <div class="timeline-icon"><i class="fas fa-users"></i></div>
+                <div class="timeline-content">
+                    <h3>المجتمعات البدائية</h3>
+                    <p>كانت الجريمة مرتبطة بالصراع على الموارد مثل الطعام والمأوى. العقوبات كانت بدائية، مثل الطرد من القبيلة أو التعويض المادي.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item animate__animated animate__fadeInRight">
+                <div class="timeline-icon"><i class="fas fa-scroll"></i></div>
+                <div class="timeline-content">
+                    <h3>قوانين حمورابي (1754 ق.م)</h3>
+                    <p>واحدة من أقدم التشريعات المكتوبة. طبقت مبدأ "العين بالعين، السن بالسن". كانت العقوبات صارمة، مثل قطع اليد للسرقة.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item animate__animated animate__fadeInLeft">
+                <div class="timeline-icon"><i class="fas fa-gavel"></i></div>
+                <div class="timeline-content">
+                    <h3>العصور الوسطى</h3>
+                    <p>ارتبطت الجريمة بالخرافات والمعتقدات الدينية. كانت العقوبات قاسية، مثل الإعدام حرقًا أو شنقًا.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item animate__animated animate__fadeInRight">
+                <div class="timeline-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="timeline-content">
+                    <h3>عصر النهضة والتنوير</h3>
+                    <p>ظهرت مفاهيم حقوق الإنسان والعدالة الاجتماعية. تم تطوير نظريات علمية لفهم الجريمة.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item animate__animated animate__fadeInLeft">
+                <div class="timeline-icon"><i class="fas fa-laptop"></i></div>
+                <div class="timeline-content">
+                    <h3>العصر الرقمي</h3>
+                    <p>ظهرت جرائم جديدة مثل الاختراق وسرقة الهوية. أصبحت الجريمة المنظمة تحدياً عالمياً.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- صورة رمزية -->
+        <img src="https://via.placeholder.com/800x400" alt="قوانين حمورابي" style="width:100%; border-radius:8px; margin-top:20px;">
+    </div>
+
+    <div class="card animate__animated" id="definition">
+        <h2><i class="fas fa-balance-scale"></i> تعريف الجريمة</h2>
+        <p>الجريمة هي أي فعل أو امتناع يعاقب عليه القانون. يمكن تعريفها لغةً، شرعًا، اصطلاحًا، واجتماعيًا.</p>
+    </div>
+
+    <div class="card animate__animated" id="types">
+        <h2><i class="fas fa-gavel"></i> أنواع الجريمة</h2>
+        <ul>
+            <li>جرائم ضد الأشخاص (مثل القتل، الاعتداء).</li>
+            <li>جرائم ضد الممتلكات (مثل السرقة، التخريب).</li>
+            <li>جرائم ضد الأمن العام (مثل الإرهاب، التمرد).</li>
+        </ul>
+    </div>
+
+    <div class="card animate__animated" id="conclusion">
+        <h2><i class="fas fa-flag"></i> الخاتمة</h2>
+        <p>الجريمة تشكل تهديدًا كبيرًا لأمن المجتمع العسكري. من خلال فهم أسبابها وتأثيراتها، يمكننا تطوير استراتيجيات فعالة للحد منها.</p>
+    </div>
+
+    <div class="navigation">
+        <button id="prevBtn"><i class="fas fa-arrow-right"></i> السابق</button>
+        <button id="nextBtn">التالي <i class="fas fa-arrow-left"></i></button>
+    </div>
+
+    <button class="back-to-top" title="رجوع للأعلى"><i class="fas fa-arrow-up"></i></button>
+
+    <footer>
+        <p>تم إعداد العرض بواسطة المقدم أحمد العبري، السنة 2025</p>
+    </footer>
+
+    <script>
+        // تحديث التاريخ والوقت
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            const dateTimeString = now.toLocaleDateString('ar-EG', options);
+            document.getElementById('date-time').textContent = dateTimeString;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // تفعيل البطاقات عند النقر
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('active');
+            });
+        });
+
+        // التنقل بين البطاقات
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentCardIndex = 0;
+
+        function showCard(index) {
+            cards.forEach((card, i) => {
+                if (i === index) {
+                    card.style.display = 'block';
+                    card.classList.add('animate__fadeIn');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('animate__fadeIn');
+                }
+            });
+            updateProgressBar();
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                showCard(currentCardIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCardIndex < cards.length - 1) {
+                currentCardIndex++;
+                showCard(currentCardIndex);
+            }
+        });
+
+        // إظهار البطاقة الأولى عند التحميل
+        showCard(currentCardIndex);
+
+        // شريط التقدم
+        const progressBar = document.querySelector('.progress-bar');
+        function updateProgressBar() {
+            const progress = (currentCardIndex + 1) / cards.length;
+            progressBar.style.transform = `scaleX(${progress})`;
+        }
+
+        // زر رجوع للأعلى
+        const backToTopButton = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // التنقل باستخدام لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
