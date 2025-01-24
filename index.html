@@ -22,7 +22,7 @@
         header {
             background-color: rgba(28, 46, 74, 0.8);
             color: #FFFFFF;
-            padding: 100px 20px;
+            padding: 60px 20px;
             text-align: center;
             position: relative;
         }
@@ -73,14 +73,11 @@
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             color: #1C2E4A;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            display: none; /* يتم إظهاره عند النقر */
         }
 
         .card.active {
-            opacity: 1;
-            transform: translateY(0);
+            display: block;
         }
 
         .card:hover {
@@ -103,11 +100,6 @@
         .card p, .card ul {
             font-size: 1.1rem;
             line-height: 1.8;
-            display: none; /* يتم إظهاره عند النقر */
-        }
-
-        .card.active p, .card.active ul {
-            display: block;
         }
 
         .navigation {
@@ -182,14 +174,6 @@
             border-radius: 8px;
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .timeline-item.active {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .timeline-icon {
@@ -224,6 +208,57 @@
         .timeline-content p {
             font-size: 1rem;
             line-height: 1.6;
+        }
+
+        /* قائمة المحاور */
+        .menu {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu ul li {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: #D4AF37;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #D4AF37;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .menu ul li a:hover {
+            background-color: #D4AF37;
+            color: #1C2E4A;
+        }
+
+        .back-to-menu {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .back-to-menu button {
+            background-color: #D4AF37;
+            color: #1C2E4A;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .back-to-menu button:hover {
+            background-color: #c0a037;
         }
 
         /* تأثيرات الحركة */
@@ -265,23 +300,40 @@
     <!-- التاريخ والوقت -->
     <div class="date-time" id="date-time"></div>
 
+    <!-- العنوان والنص -->
     <header>
         <h1>الجريمة وأثرها على أمن المجتمع العسكري</h1>
         <p>في عالم يتسم بالتحديات الأمنية المتزايدة، تأتي الجريمة كواحدة من أبرز التهديدات التي تواجه استقرار المجتمعات. هذا البحث يسلط الضوء على تأثير الجريمة على الأمن العسكري وكيفية مواجهة هذه التحديات بفعالية.</p>
     </header>
 
-    <div class="card animate__animated" id="introduction">
-        <h2><i class="fas fa-book-open"></i> المقدمة</h2>
-        <p>الجريمة هي ظاهرة اجتماعية تؤثر على استقرار المجتمعات وأمنها. في هذا البحث، سنستعرض تأثير الجريمة على الأمن العسكري وكيفية مواجهة هذه التحديات.</p>
+    <!-- قائمة المحاور -->
+    <div class="menu" id="menu">
+        <h2>محاور العرض</h2>
+        <ul>
+            <li><a href="#introduction" onclick="showSection('introduction')">المقدمة</a></li>
+            <li><a href="#history" onclick="showSection('history')">نشأة الجريمة تاريخيًا</a></li>
+            <li><a href="#definition" onclick="showSection('definition')">تعريف الجريمة</a></li>
+            <li><a href="#types" onclick="showSection('types')">أنواع الجريمة</a></li>
+            <li><a href="#conclusion" onclick="showSection('conclusion')">الخاتمة</a></li>
+        </ul>
     </div>
 
-    <div class="card animate__animated" id="history">
+    <!-- المحتوى -->
+    <div class="card" id="introduction">
+        <h2><i class="fas fa-book-open"></i> المقدمة</h2>
+        <p>الجريمة هي ظاهرة اجتماعية تؤثر على استقرار المجتمعات وأمنها. في هذا البحث، سنستعرض تأثير الجريمة على الأمن العسكري وكيفية مواجهة هذه التحديات.</p>
+        <div class="back-to-menu">
+            <button onclick="scrollToMenu()">العودة إلى المحاور</button>
+        </div>
+    </div>
+
+    <div class="card" id="history">
         <h2><i class="fas fa-history"></i> نشأة الجريمة تاريخيًا</h2>
         <p>تطورت الجريمة عبر العصور، بدءًا من المجتمعات البدائية وصولًا إلى العصر الرقمي. إليك أبرز المحطات:</p>
 
         <!-- جدول زمني -->
         <div class="timeline">
-            <div class="timeline-item animate__animated animate__fadeInLeft">
+            <div class="timeline-item">
                 <div class="timeline-icon"><i class="fas fa-users"></i></div>
                 <div class="timeline-content">
                     <h3>المجتمعات البدائية</h3>
@@ -289,7 +341,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item animate__animated animate__fadeInRight">
+            <div class="timeline-item">
                 <div class="timeline-icon"><i class="fas fa-scroll"></i></div>
                 <div class="timeline-content">
                     <h3>قوانين حمورابي (1754 ق.م)</h3>
@@ -297,7 +349,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item animate__animated animate__fadeInLeft">
+            <div class="timeline-item">
                 <div class="timeline-icon"><i class="fas fa-gavel"></i></div>
                 <div class="timeline-content">
                     <h3>العصور الوسطى</h3>
@@ -305,7 +357,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item animate__animated animate__fadeInRight">
+            <div class="timeline-item">
                 <div class="timeline-icon"><i class="fas fa-lightbulb"></i></div>
                 <div class="timeline-content">
                     <h3>عصر النهضة والتنوير</h3>
@@ -313,7 +365,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item animate__animated animate__fadeInLeft">
+            <div class="timeline-item">
                 <div class="timeline-icon"><i class="fas fa-laptop"></i></div>
                 <div class="timeline-content">
                     <h3>العصر الرقمي</h3>
@@ -324,33 +376,38 @@
 
         <!-- صورة رمزية -->
         <img src="https://via.placeholder.com/800x400" alt="قوانين حمورابي" style="width:100%; border-radius:8px; margin-top:20px;">
+        <div class="back-to-menu">
+            <button onclick="scrollToMenu()">العودة إلى المحاور</button>
+        </div>
     </div>
 
-    <div class="card animate__animated" id="definition">
+    <div class="card" id="definition">
         <h2><i class="fas fa-balance-scale"></i> تعريف الجريمة</h2>
         <p>الجريمة هي أي فعل أو امتناع يعاقب عليه القانون. يمكن تعريفها لغةً، شرعًا، اصطلاحًا، واجتماعيًا.</p>
+        <div class="back-to-menu">
+            <button onclick="scrollToMenu()">العودة إلى المحاور</button>
+        </div>
     </div>
 
-    <div class="card animate__animated" id="types">
+    <div class="card" id="types">
         <h2><i class="fas fa-gavel"></i> أنواع الجريمة</h2>
         <ul>
             <li>جرائم ضد الأشخاص (مثل القتل، الاعتداء).</li>
             <li>جرائم ضد الممتلكات (مثل السرقة، التخريب).</li>
             <li>جرائم ضد الأمن العام (مثل الإرهاب، التمرد).</li>
         </ul>
+        <div class="back-to-menu">
+            <button onclick="scrollToMenu()">العودة إلى المحاور</button>
+        </div>
     </div>
 
-    <div class="card animate__animated" id="conclusion">
+    <div class="card" id="conclusion">
         <h2><i class="fas fa-flag"></i> الخاتمة</h2>
         <p>الجريمة تشكل تهديدًا كبيرًا لأمن المجتمع العسكري. من خلال فهم أسبابها وتأثيراتها، يمكننا تطوير استراتيجيات فعالة للحد منها.</p>
+        <div class="back-to-menu">
+            <button onclick="scrollToMenu()">العودة إلى المحاور</button>
+        </div>
     </div>
-
-    <div class="navigation">
-        <button id="prevBtn"><i class="fas fa-arrow-right"></i> السابق</button>
-        <button id="nextBtn">التالي <i class="fas fa-arrow-left"></i></button>
-    </div>
-
-    <button class="back-to-top" title="رجوع للأعلى"><i class="fas fa-arrow-up"></i></button>
 
     <footer>
         <p>تم إعداد العرض بواسطة المقدم أحمد العبري، السنة 2025</p>
@@ -368,78 +425,26 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-        // تفعيل البطاقات عند النقر
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                card.classList.toggle('active');
-            });
-        });
-
-        // التنقل بين البطاقات
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentCardIndex = 0;
-
-        function showCard(index) {
-            cards.forEach((card, i) => {
-                if (i === index) {
-                    card.style.display = 'block';
-                    card.classList.add('animate__fadeIn');
+        // إظهار القسم المحدد
+        function showSection(sectionId) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (card.id === sectionId) {
+                    card.classList.add('active');
                 } else {
-                    card.style.display = 'none';
-                    card.classList.remove('animate__fadeIn');
+                    card.classList.remove('active');
                 }
             });
-            updateProgressBar();
         }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                showCard(currentCardIndex);
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentCardIndex < cards.length - 1) {
-                currentCardIndex++;
-                showCard(currentCardIndex);
-            }
-        });
-
-        // إظهار البطاقة الأولى عند التحميل
-        showCard(currentCardIndex);
-
-        // شريط التقدم
-        const progressBar = document.querySelector('.progress-bar');
-        function updateProgressBar() {
-            const progress = (currentCardIndex + 1) / cards.length;
-            progressBar.style.transform = `scaleX(${progress})`;
+        // العودة إلى قائمة المحاور
+        function scrollToMenu() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
         }
-
-        // زر رجوع للأعلى
-        const backToTopButton = document.querySelector('.back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 200) {
-                backToTopButton.style.display = 'block';
-            } else {
-                backToTopButton.style.display = 'none';
-            }
-        });
-
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // التنقل باستخدام لوحة المفاتيح
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                nextBtn.click();
-            } else if (e.key === 'ArrowLeft') {
-                prevBtn.click();
-            }
-        });
     </script>
 </body>
 </html>
