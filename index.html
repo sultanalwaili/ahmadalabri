@@ -10,9 +10,11 @@
             font-family: 'Cairo', sans-serif;
             text-align: center;
             direction: rtl;
-            background-color: #f0f4f8;
             margin: 0;
             padding: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow-x: hidden;
         }
         header {
             background: linear-gradient(to right, #4a90e2, #2a70b5);
@@ -24,6 +26,7 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .logo {
             width: 70px;
@@ -31,15 +34,49 @@
             margin-left: 20px;
             border-radius: 50%;
             border: 2px solid white;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .nav-bar button {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-bar button:hover {
+            background-color: white;
+            color: #2a70b5;
         }
         .container {
             margin: 30px auto;
             width: 95%;
             max-width: 1000px;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
         .data-table {
             width: 100%;
@@ -47,13 +84,13 @@
             margin-top: 20px;
         }
         .data-table th, .data-table td {
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 10px;
             text-align: right;
             white-space: normal;
         }
         .data-table th {
-            background-color: #4a90e2;
+            background-color: rgba(74, 144, 226, 0.8);
             color: white;
             font-weight: bold;
         }
@@ -62,6 +99,38 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        footer {
+            background: linear-gradient(to right, #4a90e2, #2a70b5);
+            color: white;
+            padding: 10px 0;
+            font-size: 16px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            width: 200px;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2a70b5;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -69,13 +138,46 @@
         <img src="https://h.top4top.io/p_3326525sf1.jpg" alt="شعار المدرسة" class="logo">
         منصة نور الإيمانية - مدرسة عباد بن بشر
     </header>
-    <div class="container">
-        <h2>استعلام عن درجات الطالب</h2>
-        <label for="studentId">أدخل الرقم السري للطالب:</label>
-        <input type="text" id="studentId" placeholder="أدخل الرقم السري هنا">
-        <button onclick="fetchStudentData()">بحث</button>
-        <div id="result"></div>
+    <div class="nav-bar">
+        <button onclick="showSection('about')">نبذة عن المدرسة</button>
+        <button onclick="showSection('goals')">أهداف المنصة</button>
+        <button onclick="showSection('news')">المستجدات</button>
     </div>
+    <div class="container">
+        <div id="about" class="hidden">
+            <h2>نبذة عن المدرسة</h2>
+            <p>مدرسة عباد بن بشر هي مؤسسة تعليمية رائدة تهدف إلى تقديم تعليم متميز يعزز القيم الإسلامية والتفوق الأكاديمي. تأسست المدرسة عام 2005، وهي تقدم خدماتها التعليمية لطلاب المراحل الابتدائية والمتوسطة والثانوية.</p>
+        </div>
+        <div id="goals" class="hidden">
+            <h2>أهداف المنصة</h2>
+            <p>تهدف منصة نور الإيمانية إلى:</p>
+            <ul>
+                <li>تحسين التواصل بين المدرسة وأولياء الأمور.</li>
+                <li>توفير وسيلة سهلة للوصول إلى درجات الطلاب.</li>
+                <li>تعزيز الشفافية في العملية التعليمية.</li>
+                <li>تقديم محتوى تعليمي إضافي للطلاب.</li>
+            </ul>
+        </div>
+        <div id="news" class="hidden">
+            <h2>المستجدات</h2>
+            <p>آخر الأخبار والتحديثات:</p>
+            <ul>
+                <li>تم إطلاق المنصة الجديدة بتاريخ 10 أكتوبر 2023.</li>
+                <li>سيتم عقد اجتماع لأولياء الأمور يوم 15 أكتوبر 2023.</li>
+                <li>تم تحديث نظام التقييم ليشمل المزيد من التفاصيل.</li>
+            </ul>
+        </div>
+        <div id="main-content">
+            <h2>استعلام عن درجات الطالب</h2>
+            <label for="studentId">أدخل الرقم السري للطالب:</label>
+            <input type="text" id="studentId" placeholder="أدخل الرقم السري هنا">
+            <button onclick="fetchStudentData()">بحث</button>
+            <div id="result"></div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2023 منصة نور الإيمانية - مدرسة عباد بن بشر. جميع الحقوق محفوظة.
+    </footer>
     <script>
         async function fetchStudentData() {
             const studentId = document.getElementById("studentId").value.trim();
@@ -96,12 +198,13 @@
                     throw new Error("لا توجد بيانات في الجدول");
                 }
                 const headers = rows[0].map(header => header.trim());
-                const students = rows.slice(1).filter(row => row.length >= headers.length);
-                const studentData = students.find(row => row[1]?.trim() === studentId);
+                const students = rows.slice(1);
+                const studentData = students.find(row => row.length > 1 && row[1]?.trim() === studentId);
                 if (studentData) {
                     let table = "<table class='data-table'>";
                     headers.forEach((header, index) => {
-                        table += `<tr><th>${header}</th><td>${studentData[index]?.trim() || '-'}</td></tr>`;
+                        const value = studentData[index] !== undefined ? studentData[index].trim() : '-';
+                        table += `<tr><th>${header}</th><td>${value}</td></tr>`;
                     });
                     table += "</table>";
                     document.getElementById("result").innerHTML = table;
@@ -113,6 +216,24 @@
                 document.getElementById("result").innerHTML = `<p class='error-message'>حدث خطأ أثناء جلب البيانات: ${error.message}</p>`;
             }
         }
+
+        function showSection(sectionId) {
+            // إخفاء جميع الأقسام
+            document.querySelectorAll('.container > div').forEach(div => {
+                div.classList.add('hidden');
+            });
+            // إظهار القسم المحدد
+            document.getElementById(sectionId).classList.remove('hidden');
+            // إظهار المحتوى الرئيسي إذا كان القسم المحدد هو نفسه
+            if (sectionId === 'main-content') {
+                document.getElementById('main-content').classList.remove('hidden');
+            }
+        }
+
+        // إظهار المحتوى الرئيسي عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('main-content');
+        });
     </script>
 </body>
 </html>
