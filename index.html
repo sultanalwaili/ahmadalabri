@@ -109,7 +109,7 @@
             width: 100%;
             box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
         }
-        input, button {
+        input, button, select {
             padding: 10px;
             margin: 10px;
             border: none;
@@ -172,6 +172,12 @@
             <label for="studentId">أدخل الرقم السري للطالب:</label>
             <input type="text" id="studentId" placeholder="أدخل الرقم السري هنا">
             <button onclick="fetchStudentData()">بحث</button>
+            <div id="subjectSelection" class="hidden">
+                <label for="subject">اختر المادة:</label>
+                <select id="subject" onchange="showSubjectData()">
+                    <option value="">-- اختر المادة --</option>
+                </select>
+            </div>
             <div id="result"></div>
         </div>
     </div>
@@ -179,6 +185,8 @@
         &copy; 2023 منصة نور الإيمانية - مدرسة عباد بن بشر. جميع الحقوق محفوظة.
     </footer>
     <script>
+        let studentData = null;
+
         async function fetchStudentData() {
             const studentId = document.getElementById("studentId").value.trim();
             if (!studentId) {
@@ -199,15 +207,15 @@
                 }
                 const headers = rows[0].map(header => header.trim());
                 const students = rows.slice(1);
-                const studentData = students.find(row => row.length > 1 && row[1]?.trim() === studentId);
+                studentData = students.find(row => row.length > 1 && row[1]?.trim() === studentId);
                 if (studentData) {
-                    let table = "<table class='data-table'>";
-                    headers.forEach((header, index) => {
-                        const value = studentData[index] !== undefined ? studentData[index].trim() : '-';
-                        table += `<tr><th>${header}</th><td>${value}</td></tr>`;
+                    const subjectSelect = document.getElementById("subject");
+                    subjectSelect.innerHTML = '<option value="">-- اختر المادة --</option>';
+                    headers.slice(2).forEach((header, index) => {
+                        subjectSelect.innerHTML += `<option value="${index}">${header}</option>`;
                     });
-                    table += "</table>";
-                    document.getElementById("result").innerHTML = table;
+                    document.getElementById("subjectSelection").classList.remove("hidden");
+                    document.getElementById("result").innerHTML = "";
                 } else {
                     document.getElementById("result").innerHTML = "<p class='error-message'>لم يتم العثور على بيانات الطالب</p>";
                 }
@@ -217,20 +225,31 @@
             }
         }
 
+        function showSubjectData() {
+            const subjectIndex = document.getElementById("subject").value;
+            if (subjectIndex === "") {
+                document.getElementById("result").innerHTML = "";
+                return;
+            }
+            const subjectName = document.getElementById("subject").options[subjectIndex].text;
+            const subjectValue = studentData[parseInt(subjectIndex) + 2]?.trim() || '-';
+            let table = "<table class='data-table'>";
+            table += `<tr><th>المادة</th><td>${subjectName}</td></tr>`;
+            table += `<tr><th>الدرجة</th><td>${subjectValue}</td></tr>`;
+            table += "</table>";
+            document.getElementById("result").innerHTML = table;
+        }
+
         function showSection(sectionId) {
-            // إخفاء جميع الأقسام
             document.querySelectorAll('.container > div').forEach(div => {
                 div.classList.add('hidden');
             });
-            // إظهار القسم المحدد
             document.getElementById(sectionId).classList.remove('hidden');
-            // إظهار المحتوى الرئيسي إذا كان القسم المحدد هو نفسه
             if (sectionId === 'main-content') {
                 document.getElementById('main-content').classList.remove('hidden');
             }
         }
 
-        // إظهار المحتوى الرئيسي عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             showSection('main-content');
         });
