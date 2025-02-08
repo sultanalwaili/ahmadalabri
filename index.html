@@ -96,13 +96,13 @@
                     throw new Error("لا توجد بيانات في الجدول");
                 }
                 const headers = rows[0].map(header => header.trim());
-                const students = rows.slice(1);
-                const studentData = students.find(row => row.length > 1 && row[1].trim() === studentId);
+                const students = rows.slice(1).filter(row => row.length >= headers.length);
+                const studentData = students.find(row => row[1]?.trim() === studentId);
                 if (studentData) {
                     let table = "<table class='data-table'>";
-                    for (let i = 0; i < headers.length; i++) {
-                        table += `<tr><th>${headers[i]}</th><td>${studentData[i]?.trim() || '-'}</td></tr>`;
-                    }
+                    headers.forEach((header, index) => {
+                        table += `<tr><th>${header}</th><td>${studentData[index]?.trim() || '-'}</td></tr>`;
+                    });
                     table += "</table>";
                     document.getElementById("result").innerHTML = table;
                 } else {
